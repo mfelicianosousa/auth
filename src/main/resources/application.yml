@@ -19,14 +19,15 @@ spring:
       file-size-threshold: 2MB
       
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username:
-    password:
+    host: sandbox.smtp.mailtrap.io
+    port: ${MAILTRAP_PORT}
+    username: ${MAILTRAP_USER}
+    password: ${MAILTRAP_PASSWORD}
     properties:
       mail:
         smtp:
           auth: true
+          ssl: false
           starttls:
             enable: true
             

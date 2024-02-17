@@ -23,7 +23,8 @@ public class EndToEndSecurityDemo {
 	            auth -> 
 	            auth
 	            .requestMatchers("/").permitAll()
-	            .requestMatchers("/login", "/logout").permitAll()
+	            .requestMatchers("/login","/error","/users","/logout").permitAll()
+	            .requestMatchers("assets/css","assets/js","assets/images").permitAll()
 	            .requestMatchers("/registration/**").permitAll()
 	        //    .requestMatchers("/myapps/**").hasAuthority("CLIENT")
 	            .anyRequest().authenticated()

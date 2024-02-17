@@ -3,6 +3,7 @@ package br.com.devsystem.auth.security;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,10 @@ public class EndToEndUserDetails implements UserDetails {
 	private boolean isEnabled;
 	private List<GrantedAuthority> authorities;
 	
+	public EndToEndUserDetails() {
+		
+	}
+	
 	public EndToEndUserDetails(User user) {
 		this.userName = user.getEmail();
 		this.password = user.getPassword();
@@ -27,36 +32,9 @@ public class EndToEndUserDetails implements UserDetails {
 	    this.authorities = Arrays.stream(user.getRoles().toString().split(","))
                 .map(SimpleGrantedAuthority::new) 
                 .collect(Collectors.toList());
-	    
-		/* 
-		 *     this.authorities = 
-				Arrays.stream( user.getRoles().toString().split(","))
-				.map( SimpleGrantedAuthority::new) Stream<SimpleGrantedAuthoritory>
-		        .collect(Collectors.toList())
-		   */
+	   
 	}
 	
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
-	
-
-	public void setAuthorities(List<GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
@@ -98,5 +76,44 @@ public class EndToEndUserDetails implements UserDetails {
 	
 		return isEnabled();
 	}	
+  
+	
+	public String getUserName() {
+		return userName;
+	}
 
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+	
+	public void setAuthorities(List<GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(userName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EndToEndUserDetails other = (EndToEndUserDetails) obj;
+		return Objects.equals(userName, other.userName);
+	}
+
+	
 }
