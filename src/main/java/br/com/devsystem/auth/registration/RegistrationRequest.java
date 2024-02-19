@@ -4,6 +4,10 @@ import java.util.List;
 
 import br.com.devsystem.auth.user.Role;
 
+/** 
+ *  Author: Marcelino Feliciano de Sousa
+ *  
+ */
 public class RegistrationRequest {
 
 	private String firstName;
@@ -11,6 +15,55 @@ public class RegistrationRequest {
 	private String email;
 	private String password;
 	private List<Role> roles;
+	
+	private RegistrationRequest(Builder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.password = builder.password;
+        this.roles = builder.roles;
+    }
+	
+	public static Builder builder() {
+        return new Builder();
+    }
+	
+	public static class Builder {
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private List<Role> roles;
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+        
+        public Builder roles(List<Role> roles) {
+            this.roles = roles;
+            return this;
+        }
+        
+        public RegistrationRequest build() {
+            return new RegistrationRequest(this);
+        }
+    }
 		
 	public RegistrationRequest() {	
 	}

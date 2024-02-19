@@ -1,15 +1,19 @@
 package br.com.devsystem.auth.home;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
-	
-	
-    @GetMapping
+	 
+	@GetMapping
 	public String homePage() {
 		return "home";
 	}
@@ -23,4 +27,5 @@ public class HomeController {
    	public String error() {
    		return "error";
    	}
+    
 }

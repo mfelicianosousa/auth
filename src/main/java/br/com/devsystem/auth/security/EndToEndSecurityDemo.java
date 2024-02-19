@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -22,10 +24,10 @@ public class EndToEndSecurityDemo {
 		return http.authorizeHttpRequests(
 	            auth -> 
 	            auth
-	            .requestMatchers("/").permitAll()
-	            .requestMatchers("/login","/error","/users","/logout").permitAll()
+	            .requestMatchers("/", "/registration/**").permitAll()
+	            .requestMatchers("/login","/error","/users").permitAll()
 	            .requestMatchers("assets/css","assets/js","assets/images").permitAll()
-	            .requestMatchers("/registration/**").permitAll()
+	         //   .requestMatchers("/registration/**").permitAll()
 	        //    .requestMatchers("/myapps/**").hasAuthority("CLIENT")
 	            .anyRequest().authenticated()
 	           )
@@ -37,10 +39,13 @@ public class EndToEndSecurityDemo {
 	                    
 	            )
 	           // .rememberMe(rememberMe -> rememberMe.key("AbcdEfghIjkl..."))
-	            .logout(logout -> logout 
+	            .logout((logout) -> logout
+	 	             .deleteCookies("custom-cookie") //<
+	            	 .clearAuthentication(true) 
+	            	 .invalidateHttpSession(true) 
 	                 .logoutUrl("/logout") 
-	                 .logoutSuccessUrl("/")
-	                 .deleteCookies("custom-cookie")
+	                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+	                 .logoutSuccessUrl("/")  
 	                 .permitAll()
 	             )
 	            .build();
@@ -58,6 +63,7 @@ public class EndToEndSecurityDemo {
 				   .usernameParameter("email")
 				   .defaultSuccessUrl("/")
 				   .permitAll().and().logout()
+				     //.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
 				   .invalidateHttpSession(true)
 				   .clearAuthentication(true)
 				   .logoutRequestMatcher("/logout")

@@ -11,6 +11,9 @@ public class RegistrationCompleteEvent extends ApplicationEvent {
 	private User user;
 	private String confirmationUrl;
 	
+	public RegistrationCompleteEvent(Object source) {
+		super(source);
+	}
 
 	public RegistrationCompleteEvent(User user, String confirmationUrl) {
 		super(user);

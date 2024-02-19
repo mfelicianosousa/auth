@@ -7,11 +7,17 @@ import br.com.devsystem.auth.registration.RegistrationRequest;
 
 public interface IUserService {
 	
-	List<User> getAllUsers();
-	
-	User registerUser(RegistrationRequest registration);
-	
-	User findByEmail(String email);
+	 List<User> getAllUsers();
+	 
+	 User registerUser( RegistrationRequest registrationRequest );
+	 
+	 Optional<User> findByEmail( String email );
+
+	 Optional<User> findById( Long id );
+
+	 void updateUser( Long id, String firstName, String lastName, String email);
+
+	 void deleteUser( Long id);
 	
 	
 

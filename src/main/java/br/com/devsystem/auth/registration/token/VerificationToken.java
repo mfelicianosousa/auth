@@ -11,6 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
+/**
+ *  @author Marcelino Feliciano Sousa
+ *  @version 0.0.1
+ *  
+ */
 @Entity
 public class VerificationToken {
 
@@ -82,4 +87,12 @@ public class VerificationToken {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "VerificationToken [id=" + id + ", token=" + token + ", expirationTime=" + expirationTime + ", user="
+				+ user.getEmail() + "]";
+	}
+	
+	
 }

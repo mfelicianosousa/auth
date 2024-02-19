@@ -3,36 +3,39 @@ package br.com.devsystem.auth.security;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.devsystem.auth.registration.RegistrationController;
 import br.com.devsystem.auth.user.User;
 
 public class EndToEndUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 	
 	private String userName;
 	private String password;
 	private boolean isEnabled;
 	private List<GrantedAuthority> authorities;
 	
-	public EndToEndUserDetails() {
-		
-	}
-	
 	public EndToEndUserDetails(User user) {
 		this.userName = user.getEmail();
 		this.password = user.getPassword();
-		this.isEnabled = user.isEnabled() ; 
+		this.isEnabled = user.isEnabled(); 
 	    this.authorities = Arrays.stream(user.getRoles().toString().split(","))
                 .map(SimpleGrantedAuthority::new) 
                 .collect(Collectors.toList());
-	   
+	    
+	    log.info("EndToEndUserDetails-> User : "+
+				  this.getUsername()+","+
+		          this.getPassword()+","+
+				  this.isEnabled());
 	}
 	
 	@Override
@@ -73,8 +76,7 @@ public class EndToEndUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-	
-		return isEnabled();
+		return isEnabled;
 	}	
   
 	
@@ -97,23 +99,5 @@ public class EndToEndUserDetails implements UserDetails {
 	public void setAuthorities(List<GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(userName);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		EndToEndUserDetails other = (EndToEndUserDetails) obj;
-		return Objects.equals(userName, other.userName);
-	}
-
 	
 }
